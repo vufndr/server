@@ -25,7 +25,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['vufndr.com'],
+    'allowed_origins' => ['https://vufndr.com'],
 
     'allowed_origins_patterns' => [],
 
