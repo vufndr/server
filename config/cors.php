@@ -25,7 +25,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://vufndr.com'],
+    'allowed_origins' => ['http://localhost:8080','https://vufndr.com'],
 
     'allowed_origins_patterns' => [],
 
