@@ -18,12 +18,17 @@ class OAuthDropboxController extends Controller
         session(['dropbox' => $dropbox->getState()]);
 
         return response()->json([
+            'state' => session('dropbox'),
             'authorization_url' => $dropbox->getAuthorizationUrl(),
         ]);
     }
 
     public function store()
     {
+        return response()->json([
+            'state' => session('dropbox'),
+        ]);
+
         $this->validate(request(), [
             'code' => 'required|string',
             'state' => 'required|string|in:' .  session('dropbox'),
