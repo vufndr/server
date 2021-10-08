@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\TestJob;
+use App\Models\DropboxCode;
 use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 
 class OAuthDropboxController extends Controller
