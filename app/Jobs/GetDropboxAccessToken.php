@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Throwable;
 use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 
-class TestJob implements ShouldQueue
+class GetDropboxAccessToken implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
