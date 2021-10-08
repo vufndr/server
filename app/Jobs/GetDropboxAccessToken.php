@@ -51,7 +51,7 @@ class GetDropboxAccessToken implements ShouldQueue
 
         $dropboxAccessToken = app(DropboxAccessToken::class)->make();
         $dropboxAccessToken->user_id = $this->dropboxCode->user_id;
-        $dropboxAccessToken->access_token = $accessToken;
+        $dropboxAccessToken->access_token = $accessToken->jsonSerialize();
         $dropboxAccessToken->save();
 
         $this->dropboxCode->job_status = 'completed';
