@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTestJobRequestsTable extends Migration
+class CreateDropboxAccessTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTestJobRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_job_requests', function (Blueprint $table) {
+        Schema::create('dropbox_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->string('job_status');
-            $table->boolean('should_fail')->default(false);
+            $table->foreignId('user_id')->index();
+            $table->json('access_token');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateTestJobRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test_job_requests');
+        Schema::dropIfExists('dropbox_access_tokens');
     }
 }

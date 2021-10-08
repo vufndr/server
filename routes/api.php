@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OAuthDropboxController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-Route::middleware('auth:sanctum')->get('/test', function (Request $request) {
-    return response()->json([], 419);
+    Route::get('/test', function (Request $request) {
+        return response()->json([], 419);
+    });
+
+    Route::get('/oauth/dropbox', [OAuthDropboxController::class, 'show']);
+    Route::post('/oauth/dropbox', [OAuthDropboxController::class, 'store']);
 });
