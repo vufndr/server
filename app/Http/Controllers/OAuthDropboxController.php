@@ -18,7 +18,7 @@ class OAuthDropboxController extends Controller
         session('dropbox', $dropbox->getState());
 
         return response()->json([
-            'authorization_url' => $dopbox->getAuthorizationUrl(),
+            'authorization_url' => $dropbox->getAuthorizationUrl(),
         ]);
     }
 
