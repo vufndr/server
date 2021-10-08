@@ -9,9 +9,9 @@ class OAuthDropboxController extends Controller
     public function show()
     {
         $dropbox = new Dropbox([
-            'clientId' => 'uaqnqcv23atv4qm',
-            'clientSecret' => 'hjynlrrnr649chv',
-            'redirectUri' => 'https://vufndr.com/oauth/dropbox',
+            'clientId' => config('services.dropbox.key'),
+            'clientSecret' => config('services.dropbox.secret'),
+            'redirectUri' => config('services.dropbox.redirect_uri'),
         ]);
 
         session('dropbox', $dropbox->getState());

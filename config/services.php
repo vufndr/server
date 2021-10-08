@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'dropbox' => [
+        'key' => env('DROPBOX_CLIENT_ID'),
+        'secret' => env('DROPBOX_SECRET'),
+        'redirect_uri' => env('DROPBOX_REDIRECT_URI'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
