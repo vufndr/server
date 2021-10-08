@@ -9,17 +9,8 @@ class OAuthDropboxController extends Controller
 {
     public function show()
     {
-        $dropbox = new Dropbox([
-            'clientId' => config('services.dropbox.key'),
-            'clientSecret' => config('services.dropbox.secret'),
-            'redirectUri' => config('services.dropbox.redirect_uri'),
-        ]);
-
-        $authorizationUrl = $dropbox->getAuthorizationUrl([
-            'token_access_type' => 'offline',
-        ]);
-
-        session(['dropbox' => $dropbox->getState()]);
+        $authorizationUrl = app(DropboxService::class)
+            ->getAuthorizationUrl(auth()->user()->id);
 
         return response()->json([
             'authorization_url' => $authorizationUrl,
@@ -30,13 +21,10 @@ class OAuthDropboxController extends Controller
     {
         $this->validate(request(), [
             'code' => 'required|string',
-            'state' => 'required|string|in:' .  session('dropbox'),
+            'state' => 'required|string|',
         ]);
 
-        $dropboxCode = app(DropboxCode::class)->make();
-        $dropboxCode->user_id = auth()->user()->id;
-        $dropboxCode->code = request('code');
-        $dropboxCode->job_status = 'created';
-        $dropboxCode->save();
+        app(DropboxService::class)
+            ->getAccessToken(auth()->user()->id, request('code'), request('state'));
     }
 }
