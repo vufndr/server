@@ -34,6 +34,7 @@ class OAuthDropboxController extends Controller
         $dropboxCode = app(DropboxCode::class)->make();
         $dropboxCode->user_id = auth()->user()->id;
         $dropboxCode->code = request('code');
+        $dropboxCode->job_status = 'created';
         $dropboxCode->save();
     }
 }
