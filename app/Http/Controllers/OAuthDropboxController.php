@@ -15,7 +15,9 @@ class OAuthDropboxController extends Controller
             'redirectUri' => config('services.dropbox.redirect_uri'),
         ]);
 
-        $authorizationUrl = $dropbox->getAuthorizationUrl();
+        $authorizationUrl = $dropbox->getAuthorizationUrl([
+            'token_access_type' => 'offline',
+        ]);
 
         session(['dropbox' => $dropbox->getState()]);
 
