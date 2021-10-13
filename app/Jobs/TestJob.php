@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\TestJobRequest;
+use App\Traits\Trackable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,18 +13,18 @@ use Throwable;
 
 class TestJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
 
-    protected $testJobRequest;
+    protected $should_fail;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(TestJobRequest $testJobRequest)
+    public function __construct(bool $should_fail)
     {
-        $this->testJobRequest = $testJobRequest;
+        $this->should_fail = $should_fail;
     }
 
     /**
@@ -34,21 +34,9 @@ class TestJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->testJobRequest->job_status = 'running';
-        $this->testJobRequest->save();
-
-        if ($this->testJobRequest->should_fail) {
+        if ($this->should_fail) {
             $this->fail();
             return;
         }
-
-        $this->testJobRequest->job_status = 'completed';
-        $this->testJobRequest->save();
-    }
-
-    public function failed(?Throwable $exception)
-    {
-        $this->testJobRequest->job_status = 'failed';
-        $this->testJobRequest->save();
     }
 }

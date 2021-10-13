@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTestJobRequestsTable extends Migration
+class CreateTrackedJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTestJobRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_job_requests', function (Blueprint $table) {
+        Schema::create('tracked_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('job_status');
-            $table->boolean('should_fail')->default(false);
+            $table->string('class');
+            $table->longText('arguments');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateTestJobRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test_job_requests');
+        Schema::dropIfExists('tracked_jobs');
     }
 }
