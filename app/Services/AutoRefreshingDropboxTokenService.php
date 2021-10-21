@@ -33,6 +33,6 @@ class AutoRefreshingDropboxTokenService implements TokenProvider
             ]);
         }
 
-        return $token->access_token;
+        return $token->getToken();
     }
 }
