@@ -21,7 +21,7 @@ class AutoRefreshingDropboxTokenService implements TokenProvider
         $this->tokenRepo = app(DropboxAccessToken::class);
     }
 
-    public function getToken()
+    public function getToken(): string
     {
         $token = new AccessToken($this->tokenRepo->whereUserId($this->user_id)->first()->access_token);
 
