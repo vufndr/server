@@ -16,11 +16,11 @@ class AutoRefreshingDropboxTokenService implements TokenProvider
 
     public function getToken(): string
     {
-        if ($this->user->account->access_token->hasExpired()) {
-            $this->user->account->access_token = app(DropboxService::class)->getAccessToken($this->user->account->access_token);
-            $this->user->account->save();
+        if ($this->user->dropboxAccount->access_token->hasExpired()) {
+            $this->user->dropboxAccount->access_token = app(DropboxService::class)->getAccessToken($this->user->dropboxAccount->access_token);
+            $this->user->dropboxAccount->save();
         }
 
-        return $this->user->account->access_token->getToken();
+        return $this->user->dropboxAccount->access_token->getToken();
     }
 }
