@@ -6,21 +6,21 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
-class MakeUser extends Command
+class Reset extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:user';
+    protected $signature = 'reset';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Make a test user';
+    protected $description = 'Resets test environment';
 
     /**
      * Create a new command instance.
@@ -39,6 +39,8 @@ class MakeUser extends Command
      */
     public function handle()
     {
+        $this->call('migrate:fresh');
+
         $user = User::make();
         $user->name = 'test@example.com';
         $user->email = 'test@example.com';

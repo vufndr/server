@@ -54,9 +54,9 @@ class DropboxService
     public function getChanges($user_id, $cursor = null)
     {
         if ($cursor) {
-            new ListFolderResult($this->getClient($user_id)->listFolderContinue($cursor));
+            return new ListFolderResult($this->getClient($user_id)->listFolderContinue($cursor));
         } else {
-            new ListFolderResult($this->getClient($user_id)->listFolder('/', true, true));
+            return new ListFolderResult($this->getClient($user_id)->listFolder('/', true, true));
         }
    }
 }
