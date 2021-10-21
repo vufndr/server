@@ -2,31 +2,25 @@
 
 namespace App\Services;
 
-use App\Models\DropboxAccount;
+use App\Models\User;
 use Spatie\Dropbox\TokenProvider;
 
 class AutoRefreshingDropboxTokenService implements TokenProvider
 {
-    protected $user_id;
+    protected $user;
 
     public function __construct($user_id)
     {
-        $this->user_id = $user_id;
+        $this->user = User::find($user_id);
     }
 
     public function getToken(): string
     {
-        $accountRepo = app(DropboxAccount::class);
-
-        $account = $accountRepo
-            ->whereUserId($this->user_id)
-            ->first();
-
-        if ($account->access_token->hasExpired()) {
-            $account->access_token = app(DropboxService::class)->getAccessToken($account->access_token);
-            $account->save();
+        if ($this->user->account->access_token->hasExpired()) {
+            $this->user->account->access_token = app(DropboxService::class)->getAccessToken($this->user->account->access_token);
+            $this->user->account->save();
         }
 
-        return $account->access_token->getToken();
+        return $this->user->account->access_token->getToken();
     }
 }

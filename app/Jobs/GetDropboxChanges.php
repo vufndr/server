@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\DropboxAccount;
 use App\Models\User;
 use App\Services\DropboxService;
 use Illuminate\Bus\Queueable;
@@ -25,12 +24,8 @@ class GetDropboxChanges implements ShouldQueue
     }
 
     public function handle()
-    {
-        $account = app(DropboxAccount::class)
-            ->whereUserId($this->user->id)
-            ->first();
-
-        $changes = app(DropboxService::class)->getChanges($this->user->id, $account->cursor);
+    {        
+        $changes = app(DropboxService::class)->getChanges($this->user->id, $this->user->dropboxAccount->cursor);
 
         $changes->entries()->each(function ($change) {
             Log::info($change->type());

@@ -17,9 +17,10 @@ class DropboxAccount extends Model
         'cursor',
     ];
 
-    protected $casts = [
-        'access_token' => 'array',
-    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function getAccessTokenAttribute($value): AccessToken
     {

@@ -25,11 +25,9 @@ class GetDropboxAccountId implements ShouldQueue
 
     public function handle()
     {
-        app(DropboxAccount::class)
-            ->whereUserId($this->user->id)
-            ->update([
-                'account_id' => app(DropboxService::class)->getAccountId($this->user->id),
-            ]);
+        $this->user->dropboxAccount->update([
+            'account_id' => app(DropboxService::class)->getAccountId($this->user->id),
+        ]);
 
         GetDropboxChanges::dispatch($this->user);
     }
