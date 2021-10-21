@@ -12,5 +12,6 @@ class DropboxAccount extends Model
     protected $fillable = [
         'user_id',
         'account_id',
+        'cursor',
     ];
 }

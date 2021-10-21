@@ -17,6 +17,7 @@ class CreateDropboxAccountsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->index();
             $table->longText('account_id');
+            $table->longText('cursor')->nullable();
             $table->timestamps();
         });
     }

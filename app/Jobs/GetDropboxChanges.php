@@ -10,9 +10,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class GetDropboxAccountId implements ShouldQueue
+class GetDropboxChanges implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -26,13 +27,23 @@ class GetDropboxAccountId implements ShouldQueue
     public function handle()
     {
         $dropbox = app(DropboxService::class);
-        $accountRepo = app(DropboxAccount::class);
 
-        $accountRepo->create([
-            'user_id' => $this->user->id,
-            'account_id' => $dropbox->getAccountId($this->user->id),
+        $account = app(DropboxAccount::class)
+            ->whereUserId($this->user->id)
+            ->first();
+
+        $changes = $dropbox->getChanges($this->user->id, $account->cursor);        
+
+        $changes->foreach(function ($change) {
+            Log::info($change->type());
+        });
+
+        $account->update([
+            'cursor' => $chanage->getCursor(),
         ]);
 
-        GetDropboxChanges::dispatch($this->user);
+        if ($change->hasMore()) {
+            GetDropboxChanges::dispatch($this->user);
+        }
     }
 }

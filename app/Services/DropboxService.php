@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Clients\DropboxClient;
+use App\Clients\ListFolderResult;
 use App\Models\DropboxAccessToken;
 use League\OAuth2\Client\Token\AccessToken;
-use Spatie\Dropbox\Client;
 use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 
 class DropboxService
@@ -22,7 +23,7 @@ class DropboxService
 
     private function getClient($user_id)
     {
-        return new Client(new AutoRefreshingDropboxTokenService($user_id));
+        return new DropboxClient(new AutoRefreshingDropboxTokenService($user_id));
     }
 
     public function getAuthorizationUrl()
@@ -49,4 +50,13 @@ class DropboxService
     {
         return $this->getClient($user_id)->getAccountInfo()['account_id'];
     }
+
+    public function getChanges($user_id, $cursor = null)
+    {
+        if ($cursor) {
+            new ListFolderResult($this->getClient($user_id)->listFolderContinue($cursor));
+        } else {
+            new ListFolderResult($this->getClient($user_id)->listFolder('/', true, true));
+        }
+   }
 }
