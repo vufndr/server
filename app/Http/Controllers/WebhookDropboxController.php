@@ -17,7 +17,7 @@ class WebhookDropboxController extends Controller
     {
         collect(request('list_folder.accounts'))
             ->each(function ($account_id) {
-                $user = User::whereDropboxAccountId($account_id)->first();
+                $user = User::whereHasDropboxAccountId($account_id)->first();
                 GetDropboxChanges::dispatch($user);
             });
     }

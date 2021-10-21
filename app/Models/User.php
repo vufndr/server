@@ -46,4 +46,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(DropboxAccount::class);
     }
+
+    public function scopeWhereHasDropboxAccountId($query, $account_id)
+    {
+        return $query->whereHas('dropboxAccount', function ($query) use ($account_id) {
+            $query->whereAccountId($account_id);
+        });
+    }
 }
