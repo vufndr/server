@@ -34,7 +34,7 @@ class GetDropboxChanges implements ShouldQueue
 
         $changes = $dropbox->getChanges($this->user->id, $account->cursor);        
 
-        $changes->entries()->foreach(function ($change) {
+        $changes->entries()->each(function ($change) {
             Log::info($change->type());
         });
 
