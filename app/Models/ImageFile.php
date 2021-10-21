@@ -9,6 +9,12 @@ class ImageFile extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'provider',
+        'path',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
