@@ -16,7 +16,6 @@ class CreateDropboxAccessTokensTable extends Migration
         Schema::create('dropbox_access_tokens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
-            $table->longText('account_id');
             $table->json('access_token');
             $table->timestamps();
         });

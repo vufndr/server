@@ -31,13 +31,11 @@ class GetDropboxAccessToken implements ShouldQueue
         $dropbox = app(DropboxService::class);
         $tokenRepo = app(DropboxAccessToken::class);
 
-        $token = $dropbox->getAccessToken($this->code);
-        $accountInfo = $dropbox->getAccountInfo($this->user->id);
-
         $tokenRepo->create([
             'user_id' => $this->user->id,
-            'account_id' => $accountInfo['account_id'],
-            'access_token' => $token->jsonSerialize(),
+            'access_token' => $dropbox->getAccessToken($this->code)->jsonSerialize(),
         ]);
+
+        Log::info($dropbox->getAccountInfo($this->user->id));
     }
 }
