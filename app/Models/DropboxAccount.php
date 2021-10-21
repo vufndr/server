@@ -24,11 +24,11 @@ class DropboxAccount extends Model
 
     public function getAccessTokenAttribute($value): AccessToken
     {
-        return new AccessToken($value);
+        return new AccessToken(json_decode($value, true));
     }
 
     public function setAccessTokenAttribute(AccessToken $value)
     {
-        $this->attributes['access_token'] = $value->jsonSerialize();
+        $this->attributes['access_token'] = json_encode($value->jsonSerialize());
     }
 }
