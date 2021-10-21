@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GetDropboxChanges;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -16,10 +17,7 @@ class WebhookDropboxController extends Controller
     {
         collect(request('list_folder.accounts'))
             ->each(function ($account_id) {
-                $user = User::whereHas('dropboxAccount', function ($query) use ($account_id) {
-                    $query->whereAccountId($account_id);
-                })->first();
-                Log::info($user->id);
+                $user = User::whereDropboxAccountId($account_id)->first();
                 GetDropboxChanges::dispatch($user);
             });
     }
