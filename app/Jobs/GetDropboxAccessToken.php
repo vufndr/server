@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\DropboxCode;
+use App\Models\DropboxAccessToken;
+use App\Models\User;
+use App\Services\DropboxService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,41 +17,23 @@ class GetDropboxAccessToken implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $dropboxCode;
+    protected $user;
+    protected $code;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct(DropboxCode $dropboxCode)
+    public function __construct(User $user, $code)
     {
-        $this->dropboxCode = $dropboxCode;
+        $this->user = $user;
+        $this->code = $code;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        $this->dropboxCode->job_status = 'running';
-        $this->dropboxCode->save();
+        $dropbox = app(DropboxService::class);
+        $tokenRepo = app(DropboxAccessToken::class);
 
-        app(DropboxService::class)
-            ->exchangeCodeForAccessToken(
-                $this->dropboxCode->user_id,
-                $this->dropboxCode->code
-            );
-
-        $this->dropboxCode->job_status = 'completed';
-        $this->dropboxCode->save();
-    }
-
-    public function failed(?Throwable $exception)
-    {
-        $this->dropboxCode->job_status = 'failed';
-        $this->dropboxCode->save();
+        $tokenRepo->create([
+            'user_id' => $this->user->id,
+            'access_token' => $dropbox->getAccessToken($this->code)->jsonSerialize(),
+        ]);
     }
 }

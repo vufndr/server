@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DropboxCode;
-use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
+use App\Services\DropboxService;
 
 class OAuthDropboxController extends Controller
 {
-    public function show()
+    public function show(DropboxService $dropbox)
     {
-        $authorizationUrl = app(DropboxService::class)
-            ->getAuthorizationUrl(auth()->user()->id);
-
         return response()->json([
-            'authorization_url' => $authorizationUrl,
+            'authorization_url' => $dropbox->getAuthorizationUrl(),
         ]);
     }
 
@@ -21,10 +17,8 @@ class OAuthDropboxController extends Controller
     {
         $this->validate(request(), [
             'code' => 'required|string',
-            'state' => 'required|string|',
         ]);
 
-        app(DropboxService::class)
-            ->getAccessToken(auth()->user()->id, request('code'), request('state'));
+        GetDropboxAccessToken::dispatch(auth()->user(), request('code'));
     }
 }

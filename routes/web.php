@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebhookDropboxController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/webhooks/dropbox', [WebhookDropboxController::class, 'show']);
+Route::post('/webhooks/dropbox', [WebhookDropboxController::class, 'store']);
