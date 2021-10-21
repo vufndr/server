@@ -20,6 +20,11 @@ class DropboxService
         ]);
     }
 
+    private function getClient($user_id)
+    {
+        return new Client(new AutoRefreshingDropboxTokenService($user_id));
+    }
+
     public function getAuthorizationUrl()
     {
        return $this->dropbox->getAuthorizationUrl([
@@ -40,8 +45,8 @@ class DropboxService
         ]);
     }
 
-    public function getClient($user_id)
+    public function getAccountInfo($user_id)
     {
-        return new Client(new AutoRefreshingDropboxTokenService($user_id));
+        return $this->getClient($user_id)->getAccountInfo();
     }
 }
