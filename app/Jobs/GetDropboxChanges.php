@@ -28,7 +28,34 @@ class GetDropboxChanges implements ShouldQueue
         $changes = app(DropboxService::class)->getChanges($this->user->id, $this->user->dropboxAccount->cursor);
 
         $changes->entries()->each(function ($change) {
-            Log::info($change->type());
+            switch ($change->type()) {
+                case 'file':
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', 'like', $change->path() . '%')
+                        ->delete();
+
+                    $this->user->images()
+                        ->create([
+                            'provider' => 'dropbox',
+                            'path' => $change->path(),
+                        ]);
+
+                    break;
+                case 'folder':
+                    // noop
+                    break;
+                case 'deleted':
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', 'like', $change->path() . '%')
+                        ->delete();
+
+                    break;
+                default:
+                    // noop
+                    break;
+            }
         });
 
         $this->user->dropboxAccount->update([
