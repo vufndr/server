@@ -45,8 +45,8 @@ class DropboxService
         ]);
     }
 
-    public function getAccountInfo($user_id)
+    public function getAccountId($user_id)
     {
-        return $this->getClient($user_id)->getAccountInfo();
+        return $this->getClient($user_id)->getAccountInfo()['account_id'];
     }
 }

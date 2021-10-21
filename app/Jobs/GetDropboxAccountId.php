@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\DropboxAccessToken;
+use App\Models\DropboxAccount;
 use App\Models\User;
 use App\Services\DropboxService;
 use Illuminate\Bus\Queueable;
@@ -12,29 +12,25 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Throwable;
 
-class GetDropboxAccessToken implements ShouldQueue
+class GetDropboxAccountId implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
-    protected $code;
 
-    public function __construct(User $user, $code)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->code = $code;
     }
 
     public function handle()
     {
         $dropbox = app(DropboxService::class);
-        $tokenRepo = app(DropboxAccessToken::class);
+        $accountRepo = app(DropboxAccount::class);
 
-        $tokenRepo->create([
+        $accountRepo->create([
             'user_id' => $this->user->id,
-            'access_token' => $dropbox->getAccessToken($this->code)->jsonSerialize(),
+            'account_id' => $dropbox->getAccountId($this->user->id),
         ]);
-
-        GetDropboxAccountId::dispatch($this->user);
     }
 }
