@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Clients\DropboxClient;
-use App\Clients\ListFolderResult;
+use App\Clients\Dropbox\DropboxClient;
+use App\Clients\Dropbox\ListFolderResult;
 use App\Models\DropboxAccessToken;
 use League\OAuth2\Client\Token\AccessToken;
 use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
