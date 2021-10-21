@@ -31,7 +31,7 @@ class GetDropboxChanges implements ShouldQueue
             Log::info($change->type());
         });
 
-        $account->update([
+        $this->user->dropboxAccount->update([
             'cursor' => $changes->cursor(),
         ]);
 
