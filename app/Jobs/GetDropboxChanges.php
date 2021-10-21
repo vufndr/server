@@ -26,13 +26,11 @@ class GetDropboxChanges implements ShouldQueue
 
     public function handle()
     {
-        $dropbox = app(DropboxService::class);
-
         $account = app(DropboxAccount::class)
             ->whereUserId($this->user->id)
             ->first();
 
-        $changes = $dropbox->getChanges($this->user->id, $account->cursor);        
+        $changes = app(DropboxService::class)->getChanges($this->user->id, $account->cursor);
 
         $changes->entries()->each(function ($change) {
             Log::info($change->type());

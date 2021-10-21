@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\DropboxAccount;
 use Illuminate\Support\Facades\Log;
 
 class WebhookDropboxController extends Controller
@@ -12,7 +14,9 @@ class WebhookDropboxController extends Controller
 
     public function store()
     {
-        $accounts = collect(request('list_folder.accounts'));
-        Log::info($accounts->toArray());
+        collect(request('list_folder.accounts'))
+            ->each(function ($account_id) {
+                Log::info(DropboxAccount::whereAccountId($account_id)->first()->user_id);
+            });
     }
 }

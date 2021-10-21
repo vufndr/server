@@ -16,7 +16,8 @@ class CreateDropboxAccountsTable extends Migration
         Schema::create('dropbox_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
-            $table->longText('account_id');
+            $table->json('access_token');
+            $table->longText('account_id')->nullable();
             $table->longText('cursor')->nullable();
             $table->timestamps();
         });
