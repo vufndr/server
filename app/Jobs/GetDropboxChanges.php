@@ -32,7 +32,12 @@ class GetDropboxChanges implements ShouldQueue
                 case 'file':
                     $this->user->images()
                         ->dropbox()
-                        ->where('path', 'like', $change->path() . '%')
+                        ->where('path', $change->path())
+                        ->delete();
+
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', 'like', $change->path() . '/%')
                         ->delete();
 
                     $this->user->images()
@@ -48,7 +53,12 @@ class GetDropboxChanges implements ShouldQueue
                 case 'deleted':
                     $this->user->images()
                         ->dropbox()
-                        ->where('path', 'like', $change->path() . '%')
+                        ->where('path', $change->path())
+                        ->delete();
+
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', 'like', $change->path() . '/%')
                         ->delete();
 
                     break;
