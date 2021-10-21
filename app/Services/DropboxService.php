@@ -36,14 +36,14 @@ class DropboxService
     public function getAccessToken($identifier)
     {
         if ($identifier instanceof AccessToken) {
-            return $this->dropbox->getAccessToken('refresh_token', [
+            return new AccessToken($this->dropbox->getAccessToken('refresh_token', [
                 'refresh_token' => $identifier->getRefreshToken()
-            ]);    
+            ]));    
         }
 
-        return $this->dropbox->getAccessToken('authorization_code', [
+        return new AccessToken($this->dropbox->getAccessToken('authorization_code', [
             'code' => $identifier,
-        ]);
+        ]));
     }
 
     public function getAccountId($user_id)
