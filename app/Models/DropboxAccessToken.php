@@ -9,6 +9,11 @@ class DropboxAccessToken extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'access_token',
+    ];
+
     protected $casts = [
         'access_token' => 'array',
     ];
