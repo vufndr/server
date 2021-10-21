@@ -12,6 +12,7 @@ class WebhookDropboxController extends Controller
 
     public function store()
     {
-        Log::info(request()->all());
+        $accounts = collect(request('list_folder.accounts'));
+        Log::info($accounts->toArray());
     }
 }
