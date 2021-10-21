@@ -26,9 +26,13 @@ class AutoRefreshingDropboxTokenService implements TokenProvider
         $token = new AccessToken($this->tokenRepo->whereUserId($this->user_id)->first()->access_token);
 
         if ($token->hasExpired()) {
+            $token = $this->dropbox->getAccessToken($token);
+
             $this->tokenRepo->whereUserId($this->user_id)->update([
                 'access_token' => $this->dropbox->getAccessToken($token)->jsonSerialize(),
             ]);
         }
+
+        return $token->access_token;
     }
 }
