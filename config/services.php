@@ -20,6 +20,11 @@ return [
         'redirect_uri' => env('DROPBOX_REDIRECT_URI'),
     ],
 
+    'imgix' => [
+        'url' => env('IMGIX_URL'),
+        'token' => env('IMGIX_TOKEN'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

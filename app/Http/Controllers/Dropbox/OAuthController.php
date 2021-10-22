@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dropbox;
 
-use App\Services\DropboxService;
-use App\Jobs\GetDropboxAccessToken;
+use App\Http\Controllers\Controller;
+use App\Jobs\Dropbox\GetAccessToken;
+use App\Services\Dropbox\DropboxService;
 
-class OAuthDropboxController extends Controller
+class OAuthController extends Controller
 {
     public function show(DropboxService $dropbox)
     {
@@ -20,6 +21,6 @@ class OAuthDropboxController extends Controller
             'code' => 'required|string',
         ]);
 
-        GetDropboxAccessToken::dispatch(auth()->user(), request('code'));
+        GetAccessToken::dispatch(auth()->user(), request('code'));
     }
 }

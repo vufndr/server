@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Dropbox;
 
 use App\Models\User;
-use App\Services\DropboxService;
+use App\Services\Dropbox\DropboxService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-class GetDropboxChanges implements ShouldQueue
+class GetChanges implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -46,7 +46,7 @@ class GetDropboxChanges implements ShouldQueue
                             'path' => $change->path(),
                         ]);
 
-                    GetDropboxImageMetadata::dispatch($image);
+                    GetImageMetadata::dispatch($image);
 
                     break;
                 case 'folder':
@@ -75,7 +75,7 @@ class GetDropboxChanges implements ShouldQueue
         ]);
 
         if ($changes->hasMore()) {
-            GetDropboxChanges::dispatch($this->user);
+            GetChanges::dispatch($this->user);
         }
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Dropbox;
 
 use App\Models\User;
 use Spatie\Dropbox\TokenProvider;
 
-class AutoRefreshingDropboxTokenService implements TokenProvider
+class AutoRefreshingTokenService implements TokenProvider
 {
     protected $user;
 

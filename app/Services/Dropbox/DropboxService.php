@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Dropbox;
 
 use App\Clients\Dropbox\DropboxClient;
 use App\Clients\Dropbox\ListFolderResult;
-use App\Models\DropboxAccessToken;
 use League\OAuth2\Client\Token\AccessToken;
 use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 
@@ -23,7 +22,7 @@ class DropboxService
 
     private function getClient($user_id)
     {
-        return new DropboxClient(new AutoRefreshingDropboxTokenService($user_id));
+        return new DropboxClient(new AutoRefreshingTokenService($user_id));
     }
 
     public function getAuthorizationUrl()

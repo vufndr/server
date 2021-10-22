@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dropbox;
 
-use App\Jobs\GetDropboxChanges;
+use App\Http\Controllers\Controller;
+use App\Jobs\Dropbox\GetChanges;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-class WebhookDropboxController extends Controller
+class WebhookController extends Controller
 {
     public function show()
     {
@@ -18,7 +19,7 @@ class WebhookDropboxController extends Controller
         collect(request('list_folder.accounts'))
             ->each(function ($account_id) {
                 $user = User::whereHasDropboxAccountId($account_id)->first();
-                GetDropboxChanges::dispatch($user);
+                GetChanges::dispatch($user);
             });
     }
 }

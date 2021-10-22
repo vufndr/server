@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Dropbox;
 
 use App\Models\DropboxAccount;
 use App\Models\User;
-use App\Services\DropboxService;
+use App\Services\Dropbox\DropboxService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,23 +12,26 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Throwable;
 
-class GetDropboxAccountId implements ShouldQueue
+class GetAccessToken implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
+    protected $code;
 
-    public function __construct(User $user)
+    public function __construct(User $user, $code)
     {
         $this->user = $user;
+        $this->code = $code;
     }
 
     public function handle()
     {
-        $this->user->dropboxAccount->update([
-            'account_id' => app(DropboxService::class)->getAccountId($this->user->id),
+        app(DropboxAccount::class)->create([
+            'user_id' => $this->user->id,
+            'access_token' => app(DropboxService::class)->getAccessToken($this->code),
         ]);
 
-        GetDropboxChanges::dispatch($this->user);
+        GetAccountId::dispatch($this->user);
     }
 }

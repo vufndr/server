@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\ImageDropboxController;
-use App\Http\Controllers\OAuthDropboxController;
-use App\Http\Controllers\WebhookDropboxController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,20 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/image/{image}', [ImageDropboxController::class, 'show']);
+Route::get('/image/{image}', 'ImageController@show');
 
-Route::get('/webhooks/dropbox', [WebhookDropboxController::class, 'show']);
-Route::post('/webhooks/dropbox', [WebhookDropboxController::class, 'store']);
+Route::get('/webhooks/dropbox', 'Dropbox\WebhookController@show');
+Route::post('/webhooks/dropbox', 'Dropbox\WebhookController@store');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/oauth/dropbox', 'Dropbox\OAuthControlle@show');
+    Route::post('/oauth/dropbox', 'Dropbox\OAuthControlle@store');
+});
 
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/test', function (Request $request) {
         return response()->json([], 419);
     });
-
-    Route::get('/oauth/dropbox', [OAuthDropboxController::class, 'show']);
-    Route::post('/oauth/dropbox', [OAuthDropboxController::class, 'store']);
 });

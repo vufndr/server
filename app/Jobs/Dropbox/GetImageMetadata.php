@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Dropbox;
 
 use App\Models\ImageFile;
-use App\Services\DropboxService;
+use App\Services\Dropbox\DropboxService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,7 +15,7 @@ use Intervention\Image\Facades\Image;
 use Throwable;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-class GetDropboxImageMetadata implements ShouldQueue
+class GetImageMetadata implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

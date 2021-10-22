@@ -15,6 +15,7 @@ class CreateImageFilesTable extends Migration
     {
         Schema::create('image_files', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid')->index();
             $table->foreignId('user_id')->index();
             $table->string('provider');
             $table->longText('path');
