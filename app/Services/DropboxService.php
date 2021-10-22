@@ -28,7 +28,7 @@ class DropboxService
 
     public function getAuthorizationUrl()
     {
-       return $this->dropbox->getAuthorizationUrl([
+        return $this->dropbox->getAuthorizationUrl([
             'token_access_type' => 'offline',
         ]);
     }
@@ -58,5 +58,10 @@ class DropboxService
         } else {
             return new ListFolderResult($this->getClient($user_id)->listFolder('/', true, true));
         }
-   }
+    }
+
+    public function download($user_id, $path)
+    {
+        return $this->getClient($user_id)->download($path);
+    }
 }

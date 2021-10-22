@@ -40,11 +40,13 @@ class GetDropboxChanges implements ShouldQueue
                         ->where('path', 'like', $change->path() . '/%')
                         ->delete();
 
-                    $this->user->images()
+                    $image = $this->user->images()
                         ->create([
                             'provider' => 'dropbox',
                             'path' => $change->path(),
                         ]);
+
+                    GetDropboxImageMetadata::dispatch($image);
 
                     break;
                 case 'folder':
