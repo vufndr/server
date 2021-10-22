@@ -35,7 +35,7 @@ class GetDropboxImageMetadata implements ShouldQueue
         Log::info([
             $image->exif()['ImageDescription'],
             $image->iptc()['Headline'],
-            $image->iptc()['Capttion'],
+            $image->iptc()['Caption'],
         ]);
         $temporaryDirectory->delete();
     }
