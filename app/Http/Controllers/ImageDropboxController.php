@@ -9,6 +9,8 @@ class ImageDropboxController extends Controller
 {
     public function show(ImageFile $image)
     {
-        return app(DropboxService::class)->download($image->user_id, $image->path);
+        return response()->streamDownload(function () {
+            echo stream_get_contents(app(DropboxService::class)->download($image->user_id, $image->path));
+        }, basename($image->path));
     }
 }
