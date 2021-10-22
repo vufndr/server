@@ -29,7 +29,7 @@ class GetDropboxImageMetadata implements ShouldQueue
     public function handle()
     {
         $temporaryDirectory = (new TemporaryDirectory())->create();
-        $path = $temporaryDirectory->path('image.tmp');
+        $path = $temporaryDirectory->path(basename($this->image->path));
         $file = app(DropboxService::class)->download($this->image->user_id, $this->image->path);
         file_put_contents($path, $file);
         $image = Image::make($path);
