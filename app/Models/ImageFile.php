@@ -16,6 +16,7 @@ class ImageFile extends Model
         'provider',
         'path',
         'description',
+        'resolution',
     ];
 
     public static function boot()
@@ -36,6 +37,7 @@ class ImageFile extends Model
     {
         return [
             'description' => $this->description,
+            'resolution' => $this->resolution,
         ];
     }
 

@@ -20,6 +20,7 @@ class CreateImageFilesTable extends Migration
             $table->string('provider');
             $table->longText('path');
             $table->longText('description')->nullable();
+            $table->string('resolution')->nullable();
             $table->timestamps();
         });
     }
