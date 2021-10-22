@@ -18,6 +18,7 @@ class CreateImageFilesTable extends Migration
             $table->foreignId('user_id')->index();
             $table->string('provider');
             $table->longText('path');
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
