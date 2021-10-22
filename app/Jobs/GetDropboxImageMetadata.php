@@ -32,8 +32,11 @@ class GetDropboxImageMetadata implements ShouldQueue
         $file = app(DropboxService::class)->download($this->image->user_id, $this->image->path);
         file_put_contents($path, $file);
         $image = Image::make($path);
-        Log::info($image->exif());
-        Log::info($image->iptc());
+        Log::info([
+            $image->exif()['ImageDescription'],
+            $image->iptc()['Headline'],
+            $image->iptc()['Capttion'],
+        ]);
         $temporaryDirectory->delete();
     }
 }
