@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Image;
 use Throwable;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class GetDropboxImageMetadata implements ShouldQueue
 {
@@ -26,7 +27,11 @@ class GetDropboxImageMetadata implements ShouldQueue
 
     public function handle()
     {
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        $path = $temporaryDirectory->path('image');
         $file = app(DropboxService::class)->download($this->user->id, $this->image->path);
-        Log::info($file);
+        file_put_contents($path, $file);
+        Log::info([Image::make($path)->exif(), Image::make($path)->iptc()]);
+        $temporaryDirectory->delete();
     }
 }
