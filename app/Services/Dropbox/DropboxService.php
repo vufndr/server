@@ -16,7 +16,7 @@ class DropboxService
         $this->dropbox = new Dropbox([
             'clientId' => config('services.dropbox.key'),
             'clientSecret' => config('services.dropbox.secret'),
-            'redirectUri' => config('services.dropbox.redirect_uri'),
+            // 'redirectUri' => config('services.dropbox.redirect_uri'),
         ]);
     }
 
@@ -35,7 +35,6 @@ class DropboxService
     public function getAccessToken($identifier)
     {
         if ($identifier instanceof AccessToken) {
-            dump('AccessToken');
             return $this->dropbox->getAccessToken('refresh_token', [
                 'refresh_token' => $identifier->getRefreshToken()
             ]);
