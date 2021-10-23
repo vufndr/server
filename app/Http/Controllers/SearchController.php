@@ -12,6 +12,7 @@ class SearchController extends Controller
     {
         $images = ImageFile::search()
             ->where('user_id', auth()->user()->id)
+            ->with(['facets' => ['*']])
             ->paginate();
     }
 }

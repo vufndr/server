@@ -36,6 +36,7 @@ class ImageFile extends Model
     public function toSearchableArray()
     {
         return [
+            'user_id' => $this->user_id,
             'description' => $this->description,
             'resolution' => $this->resolution,
         ];
