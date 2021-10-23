@@ -9,15 +9,18 @@ use Stevenmaguire\OAuth2\Client\Provider\Dropbox;
 
 class DropboxService
 {
-    protected $dropbox;
-
-    public function __construct()
+    private function getProvider($redirectUri = true)
     {
-        $this->dropbox = new Dropbox([
+        $options = [
             'clientId' => config('services.dropbox.key'),
             'clientSecret' => config('services.dropbox.secret'),
-            // 'redirectUri' => config('services.dropbox.redirect_uri'),
-        ]);
+        ];
+
+        if ($redirectUri) {
+            $options['redirectUri'] = config('services.dropbox.redirect_uri');
+        }
+
+        return new Dropbox($options);
     }
 
     private function getClient($user_id)
@@ -27,7 +30,7 @@ class DropboxService
 
     public function getAuthorizationUrl()
     {
-        return $this->dropbox->getAuthorizationUrl([
+        return $this->getProvider()->getAuthorizationUrl([
             'token_access_type' => 'offline',
         ]);
     }
@@ -35,12 +38,12 @@ class DropboxService
     public function getAccessToken($identifier)
     {
         if ($identifier instanceof AccessToken) {
-            return $this->dropbox->getAccessToken('refresh_token', [
+            return $this->getProvider(false)->getAccessToken('refresh_token', [
                 'refresh_token' => $identifier->getRefreshToken()
             ]);
         }
 
-        return $this->dropbox->getAccessToken('authorization_code', [
+        return $this->getProvider()->getAccessToken('authorization_code', [
             'code' => $identifier,
         ]);
     }
