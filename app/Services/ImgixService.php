@@ -10,8 +10,11 @@ class ImgixService
     public static function getUrl(ImageFile $image, array $params)
     {
         $builder = new UrlBuilder(config('services.imgix.host'));
+        $builder->setIncludeLibraryParam(false);
         $builder->setSignKey(config('services.imgix.token'));
+
         $params['expires'] = now()->addMinutes(15)->timestamp;
+
         return $builder->createURL($image->uuid, $params);
     }
 
