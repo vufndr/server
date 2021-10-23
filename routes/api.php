@@ -24,6 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/search', 'SearchController@index');
+
     Route::get('/test', function (Request $request) {
         return response()->json([], 419);
     });

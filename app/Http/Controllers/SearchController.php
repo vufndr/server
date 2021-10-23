@@ -10,7 +10,11 @@ class SearchController extends Controller
 {
     public function index()
     {
-        $images = ImageFile::search()
+        $this->validate(request(), [
+            'query' => 'nullable|string|max:255',
+        ]);
+
+        return ImageFile::search(request('query', ''))
             ->where('user_id', auth()->user()->id)
             ->with(['facets' => ['*']])
             ->paginate();
