@@ -10,6 +10,8 @@ class SearchController extends Controller
 {
     public function index()
     {
-        $images = ImageFile::search()->where('user_id', auth()->user()->id)->get();
+        $images = ImageFile::search()
+            ->where('user_id', auth()->user()->id)
+            ->paginate();
     }
 }
