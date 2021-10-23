@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Algolia\ScoutExtended\Builder::class, App\Clients\Algolia\Builder::class);
+        $this->app->bind(\Laravel\Scout\Builder::class, \App\Clients\Algolia\Builder::class);
     }
 
     /**

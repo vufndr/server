@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Pagination;
+namespace App\Clients\Algolia;
 
 use Illuminate\Pagination\LengthAwarePaginator as BaseLengthAwarePaginator;
 
