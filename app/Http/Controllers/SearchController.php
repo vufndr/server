@@ -16,7 +16,7 @@ class SearchController extends Controller
         $facetFilters = [];
 
         if (request()->has('resolution')) {
-            $facetFilters['resolution'] = request('resolution');
+            $facetFilters[] = 'resolution:' . request('resolution');
         }
 
         return ImageFile::search(request('query', ''))
