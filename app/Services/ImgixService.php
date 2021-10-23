@@ -7,18 +7,12 @@ use Imgix\UrlBuilder;
 
 class ImgixService
 {
-    public static function getBuilder()
+    public static function getUrl(ImageFile $image, array $params)
     {
         $builder = new UrlBuilder(config('services.imgix.url'));
         $builder->setSignKey(config('services.imgix.token'));
-        return $builder;
-    }
-
-    public static function getUrl($params)
-    {
         $params['expires'] = now()->addMinutes(15)->timestamp;
-
-        return static::getBuilder()->createURL($image->uuid, $params);
+        return $builder->createURL($image->uuid, $params);
     }
 
     public static function getThumbnailUrl(ImageFile $image)
