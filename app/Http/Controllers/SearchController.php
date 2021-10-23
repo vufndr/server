@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImageFile;
-use Exception;
 
 class SearchController extends Controller
 {
