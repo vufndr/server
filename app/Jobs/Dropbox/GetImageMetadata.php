@@ -34,6 +34,7 @@ class GetImageMetadata implements ShouldQueue
         file_put_contents($path, $file);
         $image = Image::make($path);
         $this->image->description = Arr::get($image->iptc(), 'Caption', Arr::get($image->exif(), 'ImageDescription', null));
+        $this->image->resolution = $image->width() . 'x' . $image->height();
         $this->image->save();
         $temporaryDirectory->delete();
     }
