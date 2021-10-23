@@ -21,7 +21,7 @@ return [
     ],
 
     'imgix' => [
-        'url' => env('IMGIX_URL'),
+        'host' => env('IMGIX_HOST'),
         'token' => env('IMGIX_TOKEN'),
     ],
 
