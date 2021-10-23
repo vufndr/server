@@ -33,7 +33,17 @@ class GetChanges implements ShouldQueue
                     $this->user->images()
                         ->dropbox()
                         ->where('path', $change->path())
+                        ->unsearchable();
+
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', $change->path())
                         ->delete();
+
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', 'like', $change->path() . '/%')
+                        ->unsearchable();
 
                     $this->user->images()
                         ->dropbox()
@@ -56,7 +66,17 @@ class GetChanges implements ShouldQueue
                     $this->user->images()
                         ->dropbox()
                         ->where('path', $change->path())
+                        ->unsearchable();
+
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', $change->path())
                         ->delete();
+
+                    $this->user->images()
+                        ->dropbox()
+                        ->where('path', 'like', $change->path() . '/%')
+                        ->unsearchable();
 
                     $this->user->images()
                         ->dropbox()
