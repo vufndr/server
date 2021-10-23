@@ -15,6 +15,7 @@ namespace App\Clients\Algolia;
 
 use Illuminate\Container\Container;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use function func_num_args;
 use function is_callable;
@@ -205,7 +206,7 @@ final class Builder extends BaseBuilder
             'options' => [
                 'path' => Paginator::resolveCurrentPath(),
                 'pageName' => $pageName,
-                'meta' => $rawResults,
+                'facets' => Arr::get($rawResults, 'facets'),
             ],
         ]);
 

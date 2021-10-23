@@ -6,9 +6,9 @@ use Illuminate\Pagination\LengthAwarePaginator as BaseLengthAwarePaginator;
 
 class LengthAwarePaginator extends BaseLengthAwarePaginator
 {
-    public function meta()
+    public function facets()
     {
-        return $this->meta;
+        return $this->facets;
     }
 
     public function toArray()
@@ -16,6 +16,7 @@ class LengthAwarePaginator extends BaseLengthAwarePaginator
         return [
             'current_page' => $this->currentPage(),
             'data' => $this->items->toArray(),
+            'facets' => $this->facets(),
             'first_page_url' => $this->url(1),
             'from' => $this->firstItem(),
             'last_page' => $this->lastPage(),
@@ -27,7 +28,6 @@ class LengthAwarePaginator extends BaseLengthAwarePaginator
             'prev_page_url' => $this->previousPageUrl(),
             'to' => $this->lastItem(),
             'total' => $this->total(),
-            'meta' => $this->meta(),
         ];
     }
 }
