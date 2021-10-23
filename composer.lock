@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "822235cc6119b2f19d87c3d6289e752b",
+    "content-hash": "443bcb7047046e0b4077c7346a2a43bc",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1194,6 +1194,46 @@
                 "source": "https://github.com/guzzle/psr7/tree/2.0.0"
             },
             "time": "2021-06-30T20:03:07+00:00"
+        },
+        {
+            "name": "imgix/imgix-php",
+            "version": "3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imgix/imgix-php.git",
+                "reference": "ddb7e427b601bc3534f108180c81292d5b29bc39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imgix/imgix-php/zipball/ddb7e427b601bc3534f108180c81292d5b29bc39",
+                "reference": "ddb7e427b601bc3534f108180c81292d5b29bc39",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imgix\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "A PHP client library for generating URLs with imgix.",
+            "keywords": [
+                "imgix"
+            ],
+            "support": {
+                "issues": "https://github.com/imgix/imgix-php/issues",
+                "source": "https://github.com/imgix/imgix-php/tree/3.3.1"
+            },
+            "time": "2021-03-25T15:10:34+00:00"
         },
         {
             "name": "intervention/image",
