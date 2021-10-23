@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ImgixService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -17,6 +18,11 @@ class ImageFile extends Model
         'path',
         'description',
         'resolution',
+    ];
+
+    protected $appends = [
+        'thumbnail_url',
+        'preview_url',
     ];
 
     public static function boot()
@@ -50,5 +56,15 @@ class ImageFile extends Model
     public function scopeDropbox($query)
     {
         return $query->whereProvider('dropbox');
+    }
+
+    public function getThumbnailUrlAttribute($value): string
+    {
+        return ImgixService::getThumbnailUrl($this);
+    }
+
+    public function getPreviewUrlAttribute($value): string
+    {
+        return ImgixService::getPreviewUrl($this);
     }
 }
