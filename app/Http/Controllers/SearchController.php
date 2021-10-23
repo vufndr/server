@@ -10,7 +10,7 @@ class SearchController extends Controller
 {
     public function index()
     {
-        $this->validate(request(), [
+        request()->validate([
             'query' => 'nullable|string|max:255',
         ]);
 
