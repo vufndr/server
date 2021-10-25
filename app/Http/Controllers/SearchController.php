@@ -16,8 +16,7 @@ class SearchController extends Controller
         $facetFilters = [];
 
         if (request()->has('resolutions')) {
-            $facetFilters[] = request()
-                ->collect('resolutions')
+            $facetFilters[] = collect(request('resolutions'))
                 ->map(function ($resolution) {
                     return 'resolution:' . $resolution;
                 })
