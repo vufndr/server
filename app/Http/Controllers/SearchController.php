@@ -10,13 +10,18 @@ class SearchController extends Controller
     {
         request()->validate([
             'query' => 'nullable|string|max:255',
-            'resolution' => 'nullable|string|max:255',
+            'resolutions' => 'array',
         ]);
 
         $facetFilters = [];
 
-        if (request()->has('resolution')) {
-            $facetFilters[] = 'resolution:' . request('resolution');
+        if (request()->has('resolutions')) {
+            $facetFilters[] = request()
+                ->collect('resolutions')
+                ->map(function ($resolution) {
+                    return 'resolution:' . $resolution;
+                })
+                ->toArray();
         }
 
         return ImageFile::search(request('query', ''))
