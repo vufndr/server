@@ -23,12 +23,8 @@ class SearchController extends Controller
                 ->toArray();
         }
 
-        return ImageFile::search(request('query', ''))
+        return ImageFile::facetedSearch(request('query', ''), $facetFilters)
             ->where('user_id', auth()->user()->id)
-            ->with([
-                'facets' => ['*'],
-                'facetFilters' => $facetFilters,
-            ])
             ->paginate();
     }
 }

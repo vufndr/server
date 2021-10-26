@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\ImgixService;
+use App\Traits\Faceted;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -10,7 +11,7 @@ use Webpatser\Uuid\Uuid;
 
 class ImageFile extends Model
 {
-    use HasFactory, Searchable;
+    use Faceted, HasFactory, Searchable;
 
     protected $fillable = [
         'uuid',
