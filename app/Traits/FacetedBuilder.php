@@ -7,7 +7,7 @@ class FacetedBuilder
     protected $builder;
     protected $facetFilters;
 
-    public function __contstruct($query, $callback, $facetFilters)
+    public function __construct($query, $callback, $facetFilters)
     {
         $this->builder = static::search($query, function ($algolia, $query, $options) {
             dump([$algolia, $query, $options]);
