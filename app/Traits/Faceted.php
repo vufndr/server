@@ -6,6 +6,6 @@ trait Faceted
 {
     public static function facetedSearch($query = '', $callback = null, $facetFilters = [])
     {
-        return new FacetedBuilder($query, $callback, $facetFilters);
+        return new FacetedBuilder($this, $query, $callback, $facetFilters);
     }
 }
