@@ -14,7 +14,7 @@ class SearchController extends Controller
         ]);
 
         return ImageFile::facetedSearch(request('query', ''), [
-            'resolutions' => request('resolutions'),
+            'resolution' => request('resolutions'),
         ])
             ->where('user_id', auth()->user()->id)
             ->paginate();
