@@ -13,17 +13,9 @@ class SearchController extends Controller
             'resolutions' => 'array',
         ]);
 
-        $facetFilters = [];
-
-        if (request()->has('resolutions')) {
-            $facetFilters[] = collect(request('resolutions'))
-                ->map(function ($resolution) {
-                    return 'resolution:' . $resolution;
-                })
-                ->toArray();
-        }
-
-        return ImageFile::facetedSearch(request('query', ''), $facetFilters)
+        return ImageFile::facetedSearch(request('query', ''), [
+            'resolutions' => request('resolutions'),
+        ])
             ->where('user_id', auth()->user()->id)
             ->paginate();
     }

@@ -1,12 +1,21 @@
 <?php
 
-namespace App\Clients\Algolia;
+namespace App\Traits;
 
-use Illuminate\Pagination\LengthAwarePaginator as BaseLengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-class LengthAwarePaginator extends BaseLengthAwarePaginator
+class FacetedPaginator extends LengthAwarePaginator
 {
-    public function facets()
+    protected $facets;
+
+    public function __construct($items, $total, $perPage, $currentPage = null, array $options = [], array $facets = [])
+    {
+        $this->facets = $facets;
+
+        parent::__construct($items, $total, $perPage, $currentPage, $options);
+    }
+
+    public function facets(): array
     {
         return $this->facets;
     }
