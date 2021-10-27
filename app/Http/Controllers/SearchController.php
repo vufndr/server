@@ -9,13 +9,11 @@ class SearchController extends Controller
     public function index()
     {
         request()->validate([
-            'query' => 'nullable|string|max:255',
-            'resolutions' => 'array',
+            'query' => 'nullable|string',
+            'facets' => 'nullable|array',
         ]);
 
-        return ImageFile::facetedSearch(request('query', ''), [
-            'resolution' => request('resolutions'),
-        ])
+        return ImageFile::facetedSearch(request('query', ''), request('facets', []))
             ->where('user_id', auth()->user()->id)
             ->paginate();
     }
