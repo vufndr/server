@@ -79,7 +79,7 @@ return [
     |
     */
 
-    'attributesForFaceting' => ['resolution'],
+    'attributesForFaceting' => ['searchable(resolution)'],
 
     /*
     |--------------------------------------------------------------------------

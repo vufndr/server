@@ -11,6 +11,7 @@ class SearchController extends Controller
         request()->validate([
             'query' => 'nullable|string',
             'facets' => 'nullable|array',
+            'searches' => 'nullable|array',
         ]);
 
         return ImageFile::facetedSearch(request('query', ''), request('facets', []))
