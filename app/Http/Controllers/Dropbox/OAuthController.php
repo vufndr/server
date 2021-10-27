@@ -11,7 +11,7 @@ class OAuthController extends Controller
     public function show(DropboxService $dropbox)
     {
         return response()->json([
-            'authorization_url' => $dropbox->getAuthorizationUrl(),
+            'authorization_url' => auth()->user()->dropboxAccount()->exists() ? '' : $dropbox->getAuthorizationUrl(),
         ]);
     }
 
