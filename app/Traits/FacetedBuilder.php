@@ -117,7 +117,7 @@ class FacetedBuilder
 
         $this->searches
             ->each(function ($values, $facet) use (&$facets) {
-                $facets[$facet] = $this->facets->has($facet) ? $values + $facets[$facet] : $values;
+                $facets[$facet] = $this->facets->has($facet) ? $values + $this->results->first()['facets'][$facet] : $values;
             });
 
         return $facets;
