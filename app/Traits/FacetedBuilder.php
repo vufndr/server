@@ -105,7 +105,11 @@ class FacetedBuilder
 
     private function getFacets()
     {
-        $facets = $this->results->first()['facets'];
+         $facets = collect($this->results->first()['facets'])
+            ->map(function ($values, $facet) {
+                return collect($values)->take(10)->toArray();
+            })
+            ->toArray();
 
         $this->results->skip(1)
             ->each(function ($result) use (&$facets) {
