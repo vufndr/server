@@ -14,7 +14,11 @@ class SearchController extends Controller
             'searches' => 'nullable|array',
         ]);
 
-        return ImageFile::facetedSearch(request('query', ''), request('facets', []))
+        return ImageFile::facetedSearch(
+            request('query', ''),
+            request('facets', []),
+            request('searches', [])
+        )
             ->where('user_id', auth()->user()->id)
             ->paginate();
     }

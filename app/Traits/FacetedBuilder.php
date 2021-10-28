@@ -9,14 +9,32 @@ class FacetedBuilder
 {
     protected $builder;
     protected $facets;
+    protected $searches;
 
-    public function __construct($model, $query, $facets)
+    public function __construct($model, $query, $facets, $searches)
     {
         $this->facets = collect($facets);
+        $this->searches = collect($searches);
 
         $this->builder = $model::search($query, function ($algolia, $query, $options) {
+            $this->searches = $this->searches
+                ->map(function ($search, $facet) use ($algolia, $query) {
+                    $result = $algolia->searchForFacetValues($facet, $search, [
+                        'query' => $query,
+                        'facetFilters' => $this->getFacetFilters($facet),
+                    ]);
+
+                    return collect(Arr::get($result, 'facetHits'))
+                        ->mapWithKeys(function ($facet, $key) {
+                            return [$facet['value'] => $facet['count']];
+                        })
+                        ->toArray();
+                });
+
             $queries = $this->getQueries($algolia, $query, $options);
+
             $this->results = collect(Arr::get(Algolia::client()->multipleQueries($queries), 'results', []));
+
             return $this->results->first();
         });
     }
@@ -63,8 +81,13 @@ class FacetedBuilder
     private function getQuery($query, $facet = '*')
     {
         $query['facets'] = [$facet];
+        $query['facetFilters'] = $this->getFacetFilters($facet);
+        return $query;
+    }
 
-        $query['facetFilters'] = $this->facets
+    private function getFacetFilters($facet = '*')
+    {
+        return $this->facets
             ->filter(function ($values, $name) use ($facet) {
                 return $name !== $facet;
             })
@@ -78,8 +101,6 @@ class FacetedBuilder
             })
             ->values()
             ->toArray();
-
-        return $query;
     }
 
     private function getFacets()
@@ -90,8 +111,13 @@ class FacetedBuilder
             ->each(function ($result) use (&$facets) {
                 collect($result['facets'])
                     ->each(function ($values, $facet) use (&$facets) {
-                        $facets[$facet] = $values;
+                        $facets[$facet] = collect($values)->take(10)->toArray();
                     });
+            });
+
+        $this->searches
+            ->each(function ($values, $facet) use (&$facets) {
+                $facets[$facet] = $values;
             });
 
         return $facets;

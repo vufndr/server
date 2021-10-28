@@ -4,8 +4,8 @@ namespace App\Traits;
 
 trait Faceted
 {
-    public static function facetedSearch($query = '', $facetFilters = [])
+    public static function facetedSearch($query = '', $facetFilters = [], $facetSearches = [])
     {
-        return new FacetedBuilder(static::class, $query, $facetFilters);
+        return new FacetedBuilder(static::class, $query, $facetFilters, $facetSearches);
     }
 }
