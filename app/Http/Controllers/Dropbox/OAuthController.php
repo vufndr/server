@@ -23,4 +23,9 @@ class OAuthController extends Controller
 
         GetAccessToken::dispatch(auth()->user(), request('code'));
     }
+
+    public function destroy()
+    {
+        DropboxAccount::whereUserId(auth()->user()->id)->delete();
+    }
 }

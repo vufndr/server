@@ -19,6 +19,7 @@ Route::post('/webhooks/dropbox', 'Dropbox\WebhookController@store');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/oauth/dropbox', 'Dropbox\OAuthController@show');
     Route::post('/oauth/dropbox', 'Dropbox\OAuthController@store');
+    Route::delete('/oauth/dropbox', 'Dropbox\OAuthController@destroy');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
