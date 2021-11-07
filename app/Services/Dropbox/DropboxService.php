@@ -38,9 +38,13 @@ class DropboxService
     public function getAccessToken($identifier)
     {
         if ($identifier instanceof AccessToken) {
-            return $this->getProvider(false)->getAccessToken('refresh_token', [
+            $parameters = $identifier->getValues();
+
+            $parameters['access_token'] = $this->getProvider(false)->getAccessToken('refresh_token', [
                 'refresh_token' => $identifier->getRefreshToken()
-            ]);
+            ])->getToken();
+
+            return new AccessToken($parameters);
         }
 
         return $this->getProvider()->getAccessToken('authorization_code', [
