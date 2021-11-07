@@ -38,11 +38,13 @@ class DropboxService
     public function getAccessToken($identifier)
     {
         if ($identifier instanceof AccessToken) {
-            $parameters = $identifier->getValues();
-
-            $parameters['access_token'] = $this->getProvider(false)->getAccessToken('refresh_token', [
+            $token = $this->getProvider(false)->getAccessToken('refresh_token', [
                 'refresh_token' => $identifier->getRefreshToken()
-            ])->getToken();
+            ]);
+
+            $parameters = $identifier->jsonSerialize();
+            $parameters['access_token'] = $token->getToken();
+            $parameters['expires'] = $token->getExpires();
 
             return new AccessToken($parameters);
         }
