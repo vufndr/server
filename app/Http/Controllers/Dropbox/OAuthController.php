@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dropbox;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\Dropbox\GetAccessToken;
+use App\Models\DropboxAccount;
 use App\Services\Dropbox\DropboxService;
 
 class OAuthController extends Controller
